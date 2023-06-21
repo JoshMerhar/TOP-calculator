@@ -3,16 +3,27 @@
     flex-direction: column;
     align-items: center;
     margin: auto;
+    padding: 10px;
     width: 350px;
     min-height: 500px;
     border: 2px solid black;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #display {
-    height: 125px;
-    width: 325px;
-    margin: 10px;
+    height: 80px;
+    width: 330px;
+    margin: 5px;
     border: 2px solid black;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.display-text {
+    position: relative;
+    text-align: end;
+    top: 35px;
+    right: 10px;
 }
 
 #buttons, #top-buttons, #main-buttons {
@@ -22,7 +33,6 @@
 
 #buttons {
     flex-direction: column;
-    margin: 10px;
     gap: 5px;
 }
 
@@ -35,18 +45,19 @@
     gap: 5px;
 }
 
-.top-button, .number-button, .operator-button {
+.top-button, .number-button, .operator-button, .sign-button, .decimal-button {
     font-size: 24px;
     font-weight: bold;
     box-sizing: border-box;
+    border: 2px solid black;
 }
 
 .top-button {
-    width: 152.5px;
-    height: 75px;
+    width: 162.5px;
+    height: 80px;
 }
 
 .main-button {
-    width: 75px;
-    height: 75px;
+    width: 80px;
+    height: 80px;
 }
