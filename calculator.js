@@ -35,12 +35,16 @@ numberButtons.forEach(numberButton => numberButton.addEventListener("click", () 
 }));
 
 const decimalButton = document.querySelector("#decimal");
-let clicked = false;
+let decimalClicked = false;
 decimalButton.addEventListener("click", () => {
-    if (!clicked) {
+    if (!decimalClicked && secondNumber === "") {
         display.textContent += ".";
         firstNumber += ".";
-        clicked = true;
+        decimalClicked = true;
+    } else if (!decimalClicked && operation !== "") {
+        display.textContent += ".";
+        secondNumber += ".";
+        decimalClicked = true;
     }
 })
 
@@ -50,7 +54,7 @@ clearButton.addEventListener("click", () => {
     firstNumber = "";
     secondNumber = "";
     operation = "";
-    clicked = false;
+    decimalClicked = false;
     addClicked = false;
 });
 
@@ -61,6 +65,7 @@ addition.addEventListener("click", () => {
         operation = "+";
         addClicked = true;
     }
+    decimalClicked = false;
 });
 
 const solve = document.querySelector("#solve");
@@ -69,8 +74,11 @@ solve.addEventListener("click", operate);
 let result;
 function operate() {
     if (operation === "+") {
-        result = +firstNumber + +secondNumber;
+        let subResult = ((+firstNumber * 10) + (+secondNumber * 10));
+        result = subResult / 10;
         addClicked = false;
+    } else {
+        return;
     }
     display.textContent = result;
     firstNumber = result;
