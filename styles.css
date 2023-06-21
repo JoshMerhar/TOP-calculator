@@ -1,0 +1,52 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: 350px;
+    min-height: 500px;
+    border: 2px solid black;
+}
+
+#display {
+    height: 125px;
+    width: 325px;
+    margin: 10px;
+    border: 2px solid black;
+}
+
+#buttons, #top-buttons, #main-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#buttons {
+    flex-direction: column;
+    margin: 10px;
+    gap: 5px;
+}
+
+#top-buttons {
+    gap: 10px;
+}
+
+#main-buttons {
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.top-button, .number-button, .operator-button {
+    font-size: 24px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.top-button {
+    width: 152.5px;
+    height: 75px;
+}
+
+.main-button {
+    width: 75px;
+    height: 75px;
+}
