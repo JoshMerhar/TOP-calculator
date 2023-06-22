@@ -37,7 +37,11 @@ numberButtons.forEach(numberButton => numberButton.addEventListener("click", () 
 const decimalButton = document.querySelector("#decimal");
 let decimalClicked = false;
 decimalButton.addEventListener("click", () => {
-    if (!decimalClicked && secondNumber === "") {
+    if (!decimalClicked && operation !== "" && secondNumber === "") {
+        display.textContent = ".";
+        secondNumber = ".";
+        decimalClicked = true;
+    } else if (!decimalClicked && secondNumber === "") {
         display.textContent += ".";
         firstNumber += ".";
         decimalClicked = true;
@@ -45,17 +49,7 @@ decimalButton.addEventListener("click", () => {
         display.textContent += ".";
         secondNumber += ".";
         decimalClicked = true;
-    }
-})
-
-const clearButton = document.querySelector("#clear");
-clearButton.addEventListener("click", () => {
-    display.textContent = "0";
-    firstNumber = "";
-    secondNumber = "";
-    operation = "";
-    decimalClicked = false;
-    addClicked = false;
+    } 
 });
 
 const addition = document.querySelector("#add");
@@ -68,20 +62,69 @@ addition.addEventListener("click", () => {
     decimalClicked = false;
 });
 
+const subtract = document.querySelector("#subtract");
+let subtractClicked = false;
+subtract.addEventListener("click", () => {
+    if (!subtractClicked) {
+        operation = "-";
+        subtractClicked = true;
+    }
+    decimalClicked = false;
+});
+
+const multiply = document.querySelector("#multiply");
+let multiplyClicked = false;
+multiply.addEventListener("click", () => {
+    if (!multiplyClicked) {
+        operation = "*";
+        multiplyClicked = true;
+    }
+    decimalClicked = false;
+});
+
+const divide = document.querySelector("#divide");
+let divideClicked = false;
+divide.addEventListener("click", () => {
+    if (!divideClicked) {
+        operation = "/";
+        divideClicked = true;
+    }
+    decimalClicked = false;
+})
+
+const clearButton = document.querySelector("#clear");
+clearButton.addEventListener("click", () => {
+    display.textContent = "0";
+    firstNumber = "";
+    secondNumber = "";
+    operation = "";
+    decimalClicked = false;
+    addClicked = false;
+    subtractClicked = false;
+});
+
 const solve = document.querySelector("#solve");
 solve.addEventListener("click", operate);
 
 let result;
 function operate() {
     if (operation === "+") {
-        let subResult = ((+firstNumber * 10) + (+secondNumber * 10));
-        result = subResult / 10;
+        result = ((+firstNumber * 10) + (+secondNumber * 10)) / 10;
         addClicked = false;
+    } else if (operation === "-") {
+        result = ((+firstNumber * 10) - (+secondNumber * 10)) / 10;
+        subtractClicked = false;
+    } else if (operation === "*") {
+        result = (((+firstNumber) * (+secondNumber)) * 10) / 10;
+        multiplyClicked = false;
+    } else if (operation === "/") {
+        result = (((+firstNumber) / (+secondNumber)) * 10) / 10;
+        divideClicked = false;
     } else {
         return;
     }
     display.textContent = result;
     firstNumber = result;
-    secondNumber = "";
     operation = "";
+    secondNumber = "";
 }
