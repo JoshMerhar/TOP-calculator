@@ -55,29 +55,47 @@ decimalButton.addEventListener("click", () => {
 const addition = document.querySelector("#add");
 let addClicked = false;
 addition.addEventListener("click", () => {
-    if (!addClicked) {
+    if (!addClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "+";
+    } else if (!addClicked) {
         operation = "+";
         addClicked = true;
-    }
+    } else if (addClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "+";
+    } 
     decimalClicked = false;
 });
 
 const subtract = document.querySelector("#subtract");
 let subtractClicked = false;
 subtract.addEventListener("click", () => {
-    if (!subtractClicked) {
+    if (!subtractClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "-";
+    } else if (!subtractClicked) {
         operation = "-";
         subtractClicked = true;
-    }
+    } else if (subtractClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "-";
+    } 
     decimalClicked = false;
 });
 
 const multiply = document.querySelector("#multiply");
 let multiplyClicked = false;
 multiply.addEventListener("click", () => {
-    if (!multiplyClicked) {
+    if (!multiplyClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "*";
+    } else if (!multiplyClicked) {
         operation = "*";
         multiplyClicked = true;
+    } else if (multiplyClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "*";
     }
     decimalClicked = false;
 });
@@ -85,23 +103,71 @@ multiply.addEventListener("click", () => {
 const divide = document.querySelector("#divide");
 let divideClicked = false;
 divide.addEventListener("click", () => {
-    if (!divideClicked) {
+    if (!divideClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "/";
+    } else if (!divideClicked) {
         operation = "/";
         divideClicked = true;
+    } else if (divideClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "/";
+    } 
+    decimalClicked = false;
+});
+
+const exponent = document.querySelector("#exponent");
+let exponentClicked = false;
+exponent.addEventListener("click", () => {
+    if (!exponentClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "^";
+    } else if (!exponentClicked) {
+        operation = "^";
+        exponentClicked = true;
+    } else if (exponentClicked && firstNumber && secondNumber) {
+        operate(firstNumber, secondNumber);
+        operation = "^";
     }
     decimalClicked = false;
-})
+});
+
+const square = document.querySelector("#sqrt");
+square.addEventListener("click", () => {
+    result = Math.sqrt(+firstNumber);
+    display.textContent = result;
+    firstNumber = result;
+});
+
+const signButton = document.querySelector("#sign");
+let signClicked = false;
+signButton.addEventListener("click", () => {
+    if (!signClicked && secondNumber === "") {
+        firstNumber = "-" + firstNumber;
+        display.textContent = firstNumber;
+        signClicked = true;
+    } else if (!signClicked && secondNumber !== "") {
+        secondNumber = "-" + secondNumber;
+        display.textContent = secondNumber;
+        signClicked = true;
+    } else if (signClicked && secondNumber === "") {
+        firstNumber = firstNumber.slice(1);
+        display.textContent = firstNumber;
+        signClicked = false;
+    } else if (signClicked && secondNumber !== "") {
+        secondNumber = secondNumber.slice(1);
+        display.textContent = secondNumber;
+        signClicked = false;
+    }
+});
+
+const percent = document.querySelector("#percent");
+percent.addEventListener("click", () => {
+    display.textContent = (+display.textContent / 100);
+});
 
 const clearButton = document.querySelector("#clear");
-clearButton.addEventListener("click", () => {
-    display.textContent = "0";
-    firstNumber = "";
-    secondNumber = "";
-    operation = "";
-    decimalClicked = false;
-    addClicked = false;
-    subtractClicked = false;
-});
+clearButton.addEventListener("click", clear);
 
 const solve = document.querySelector("#solve");
 solve.addEventListener("click", operate);
@@ -118,8 +184,15 @@ function operate() {
         result = (((+firstNumber) * (+secondNumber)) * 10) / 10;
         multiplyClicked = false;
     } else if (operation === "/") {
+        if (secondNumber === "0") {
+            clear;
+            return alert("You know what you've done...");
+        }
         result = (((+firstNumber) / (+secondNumber)) * 10) / 10;
         divideClicked = false;
+    } else if (operation === "^") {
+        result = (((+firstNumber) ** (+secondNumber)) * 10) / 10;
+        exponentClicked = false;
     } else {
         return;
     }
@@ -127,4 +200,17 @@ function operate() {
     firstNumber = result;
     operation = "";
     secondNumber = "";
+    signClicked = false;
+    return result;
+}
+
+function clear() {
+    display.textContent = "0";
+    firstNumber = "";
+    secondNumber = "";
+    operation = "";
+    decimalClicked = false;
+    signClicked = false;
+    addClicked = false;
+    subtractClicked = false;
 }
