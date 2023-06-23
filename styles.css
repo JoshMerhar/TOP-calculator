@@ -6,9 +6,10 @@
     padding: 10px;
     width: 350px;
     min-height: 500px;
-    border: 2px solid black;
+    border: 5px solid black;
     border-radius: 10px;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: darkslategray;
 }
 
 #display {
@@ -19,6 +20,7 @@
     border-radius: 5px;
     font-size: 36px;
     font-weight: bold;
+    background-color: gainsboro;
 }
 
 .display-text {
@@ -48,7 +50,7 @@
 }
 
 .top-button, .number-button, .operator-button, .sign-button, .decimal-button {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     box-sizing: border-box;
     border: 2px solid black;
@@ -63,4 +65,55 @@
 .main-button {
     width: 80px;
     height: 80px;
+}
+
+.number-button {
+    background-color: lightskyblue;
+}
+
+.number-button:hover {
+    background-color: cyan;
+}
+
+#clear {
+    background-color: rgb(255, 0, 0);
+}
+
+#clear:hover {
+    background-color: rgb(255, 65, 65);
+}
+
+#delete {
+    background-color: rgb(231, 231, 0);
+    
+}
+
+#delete:hover {
+    background-color: yellow;
+}
+
+#sign, #decimal {
+    color: white;
+    background-color: darkblue;
+}
+
+#sign:hover, #decimal:hover {
+    background-color: blue;
+}
+
+.operator-button {
+    color: white;
+    background-color: darkorange;
+}
+
+.operator-button:hover {
+    background-color: orange;
+}
+
+#solve {
+    background-color: rgb(0, 255, 0);
+}
+
+#solve:hover {
+    background-color: lightgreen;
 }

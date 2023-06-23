@@ -3,15 +3,6 @@ let operation = "";
 let secondNumber = "";
 let display = document.querySelector(".display-text");
 
-const buttons = document.querySelectorAll(".button");
-buttons.forEach(button => button.addEventListener("mouseenter", () => {
-    button.style.backgroundColor = "darkgray";
-}));
-
-buttons.forEach(button => button.addEventListener("mouseleave", () => {
-    button.style.backgroundColor = "";
-}));
-
 const deleteButton = document.querySelector("#delete");
 let newDisplay;
 deleteButton.addEventListener("click", () => {
@@ -89,6 +80,8 @@ const addition = document.querySelector("#add");
 let addClicked = false;
 addition.addEventListener("click", () => {
     fullDisplay = false;
+    signClicked = false;
+    decimalClicked = false;
     if (!addClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "+";
@@ -99,13 +92,14 @@ addition.addEventListener("click", () => {
         operate(firstNumber, secondNumber);
         operation = "+";
     } 
-    decimalClicked = false;
 });
 
 const subtract = document.querySelector("#subtract");
 let subtractClicked = false;
 subtract.addEventListener("click", () => {
     fullDisplay = false;
+    signClicked = false;
+    decimalClicked = false;
     if (!subtractClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "-";
@@ -116,13 +110,14 @@ subtract.addEventListener("click", () => {
         operate(firstNumber, secondNumber);
         operation = "-";
     } 
-    decimalClicked = false;
 });
 
 const multiply = document.querySelector("#multiply");
 let multiplyClicked = false;
 multiply.addEventListener("click", () => {
     fullDisplay = false;
+    signClicked = false;
+    decimalClicked = false;
     if (!multiplyClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "*";
@@ -133,13 +128,14 @@ multiply.addEventListener("click", () => {
         operate(firstNumber, secondNumber);
         operation = "*";
     }
-    decimalClicked = false;
 });
 
 const divide = document.querySelector("#divide");
 let divideClicked = false;
 divide.addEventListener("click", () => {
     fullDisplay = false;
+    signClicked = false;
+    decimalClicked = false;
     if (!divideClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "/";
@@ -150,13 +146,14 @@ divide.addEventListener("click", () => {
         operate(firstNumber, secondNumber);
         operation = "/";
     } 
-    decimalClicked = false;
 });
 
 const exponent = document.querySelector("#exponent");
 let exponentClicked = false;
 exponent.addEventListener("click", () => {
     fullDisplay = false;
+    signClicked = false;
+    decimalClicked = false;
     if (!exponentClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "^";
@@ -167,12 +164,12 @@ exponent.addEventListener("click", () => {
         operate(firstNumber, secondNumber);
         operation = "^";
     }
-    decimalClicked = false;
 });
 
 const square = document.querySelector("#sqrt");
 square.addEventListener("click", () => {
     fullDisplay = false;
+    signClicked = false;
     result = Math.sqrt(+firstNumber);
     if (result.toString().length >= 15) {
         result = result.toFixed(4);
@@ -185,22 +182,32 @@ square.addEventListener("click", () => {
 const signButton = document.querySelector("#sign");
 let signClicked = false;
 signButton.addEventListener("click", () => {
-    if (!signClicked && secondNumber === "") {
-        firstNumber = "-" + firstNumber;
-        display.textContent = firstNumber;
-        signClicked = true;
-    } else if (!signClicked && secondNumber !== "") {
-        secondNumber = "-" + secondNumber;
-        display.textContent = secondNumber;
-        signClicked = true;
-    } else if (signClicked && secondNumber === "") {
-        firstNumber = firstNumber.slice(1);
-        display.textContent = firstNumber;
-        signClicked = false;
-    } else if (signClicked && secondNumber !== "") {
-        secondNumber = secondNumber.slice(1);
-        display.textContent = secondNumber;
-        signClicked = false;
+    if (operation === "") {
+        if (!signClicked && display.textContent[0] === "-") {
+            return;
+        } else if (!signClicked && firstNumber !== "") {
+            firstNumber = "-" + firstNumber;
+            display.textContent = firstNumber;
+            signClicked = true;
+        } else if (signClicked && firstNumber !== "") {
+            firstNumber = firstNumber.slice(1);
+            display.textContent = firstNumber;
+            signClicked = false;
+        } 
+    }
+    if (operation !== "") {
+        if (secondNumber === "") {
+            signClicked = false;
+            return;
+        } else if (signClicked && secondNumber !== "") {
+            secondNumber = secondNumber.slice(1);
+            display.textContent = secondNumber;
+            signClicked = false;
+        } else if (!signClicked && secondNumber !== "") {
+            secondNumber = "-" + secondNumber;
+            display.textContent = secondNumber;
+            signClicked = true;
+        }
     }
 });
 
