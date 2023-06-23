@@ -1,4 +1,4 @@
-let firstNumber = "";
+let firstNumber = "0";
 let operation = "";
 let secondNumber = "";
 let display = document.querySelector(".display-text");
@@ -12,9 +12,39 @@ buttons.forEach(button => button.addEventListener("mouseleave", () => {
     button.style.backgroundColor = "";
 }));
 
+const deleteButton = document.querySelector("#delete");
+let newDisplay;
+deleteButton.addEventListener("click", () => {
+    if (display.textContent === "0" && display.textContent.length === 1) {
+        display.textContent = "0";
+        return;
+    } 
+    if (operation === "" && display.textContent.length === 1) {
+        newDisplay = "0";
+        display.textContent = newDisplay;
+        firstNumber = newDisplay;
+    } else if (operation === "") {
+        newDisplay = display.textContent.slice(0, -1);
+        display.textContent = newDisplay;
+        firstNumber = newDisplay;
+    } else if (operation !== "" && secondNumber.length === 1) {
+        newDisplay = "0";
+        display.textContent = newDisplay;
+        secondNumber = newDisplay;
+    } else if (operation !== "") {
+        newDisplay = display.textContent.slice(0, -1);
+        display.textContent = newDisplay;
+        secondNumber = newDisplay;
+    } 
+});
+
 const numberButtons = document.querySelectorAll(".number-button");
+let fullDisplay = false;
 numberButtons.forEach(numberButton => numberButton.addEventListener("click", () => {
-    if (display.textContent.length < 15 && operation === "") {
+    if (display.textContent.length === 15) {
+        fullDisplay = true;
+    }
+    if (display.textContent.length <= 15 && operation === "" && !fullDisplay) {
         if (display.textContent === "0") {
             display.textContent = `${numberButton.textContent}`;
             firstNumber = `${numberButton.textContent}`;
@@ -23,8 +53,11 @@ numberButtons.forEach(numberButton => numberButton.addEventListener("click", () 
             firstNumber += `${numberButton.textContent}`;
         }
     }
-    if (display.textContent.length < 15 && operation !== "") {
-        if (display.textContent === firstNumber || secondNumber === "0" || secondNumber === "") {
+    if (operation !== "" && secondNumber.length < 15) {
+        fullDisplay = false;
+    }
+    if (display.textContent.length <= 15 && operation !== "" && !fullDisplay) {
+        if (secondNumber === "0" || secondNumber === "") {
             display.textContent = `${numberButton.textContent}`;
             secondNumber = `${numberButton.textContent}`;
         } else {
@@ -55,6 +88,7 @@ decimalButton.addEventListener("click", () => {
 const addition = document.querySelector("#add");
 let addClicked = false;
 addition.addEventListener("click", () => {
+    fullDisplay = false;
     if (!addClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "+";
@@ -71,6 +105,7 @@ addition.addEventListener("click", () => {
 const subtract = document.querySelector("#subtract");
 let subtractClicked = false;
 subtract.addEventListener("click", () => {
+    fullDisplay = false;
     if (!subtractClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "-";
@@ -87,6 +122,7 @@ subtract.addEventListener("click", () => {
 const multiply = document.querySelector("#multiply");
 let multiplyClicked = false;
 multiply.addEventListener("click", () => {
+    fullDisplay = false;
     if (!multiplyClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "*";
@@ -103,6 +139,7 @@ multiply.addEventListener("click", () => {
 const divide = document.querySelector("#divide");
 let divideClicked = false;
 divide.addEventListener("click", () => {
+    fullDisplay = false;
     if (!divideClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "/";
@@ -119,6 +156,7 @@ divide.addEventListener("click", () => {
 const exponent = document.querySelector("#exponent");
 let exponentClicked = false;
 exponent.addEventListener("click", () => {
+    fullDisplay = false;
     if (!exponentClicked && firstNumber && secondNumber) {
         operate(firstNumber, secondNumber);
         operation = "^";
@@ -134,7 +172,12 @@ exponent.addEventListener("click", () => {
 
 const square = document.querySelector("#sqrt");
 square.addEventListener("click", () => {
+    fullDisplay = false;
     result = Math.sqrt(+firstNumber);
+    if (result.toString().length >= 15) {
+        result = result.toFixed(4);
+        result = +(result.toString().slice(0, 15));
+    } 
     display.textContent = result;
     firstNumber = result;
 });
@@ -163,7 +206,14 @@ signButton.addEventListener("click", () => {
 
 const percent = document.querySelector("#percent");
 percent.addEventListener("click", () => {
-    display.textContent = (+display.textContent / 100);
+    result = (+display.textContent / 100);
+    display.textContent = result;
+    firstNumber = result;
+    if (result.toString().length >= 15) {
+        result = (+result).toFixed(13);
+        result = result.toString().slice(0, 15);
+    }
+    return result;
 });
 
 const clearButton = document.querySelector("#clear");
@@ -183,6 +233,8 @@ function operate() {
     } else if (operation === "*") {
         result = (((+firstNumber) * (+secondNumber)) * 10) / 10;
         multiplyClicked = false;
+        result = result.toFixed(4);
+        result = +(result.toString().slice(0, 15));
     } else if (operation === "/") {
         if (secondNumber === "0") {
             clear;
@@ -190,27 +242,40 @@ function operate() {
         }
         result = (((+firstNumber) / (+secondNumber)) * 10) / 10;
         divideClicked = false;
+        result = result.toFixed(4);
+        result = +(result.toString().slice(0, 15));
     } else if (operation === "^") {
         result = (((+firstNumber) ** (+secondNumber)) * 10) / 10;
         exponentClicked = false;
     } else {
         return;
     }
+
+    if (result.toString().length > 15) {
+        display.textContent = "Number can't fit!";
+        return;
+    } 
     display.textContent = result;
     firstNumber = result;
     operation = "";
     secondNumber = "";
     signClicked = false;
+    fullDisplay = false;
     return result;
 }
 
 function clear() {
     display.textContent = "0";
-    firstNumber = "";
+    fullDisplay = false;
+    result = "";
+    firstNumber = "0";
     secondNumber = "";
     operation = "";
     decimalClicked = false;
     signClicked = false;
     addClicked = false;
     subtractClicked = false;
+    multiplyClicked = false;
+    divideClicked = false;
+    exponentClicked = false;
 }
