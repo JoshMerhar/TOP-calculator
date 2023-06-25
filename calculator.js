@@ -254,7 +254,7 @@ function operate() {
     } else if (operation === "*") {
         result = (((+firstNumber) * (+secondNumber)) * 10) / 10;
         multiplyClicked = false;
-        result = result.toFixed(4);
+        result = result.toFixed(13);
         result = +(result.toString().slice(0, 15));
     } else if (operation === "/") {
         if (secondNumber === "0") {
@@ -263,7 +263,7 @@ function operate() {
         }
         result = (((+firstNumber) / (+secondNumber)) * 10) / 10;
         divideClicked = false;
-        result = result.toFixed(4);
+        result = result.toFixed(13);
         result = +(result.toString().slice(0, 15));
     } else if (operation === "^") {
         result = (((+firstNumber) ** (+secondNumber)) * 10) / 10;
