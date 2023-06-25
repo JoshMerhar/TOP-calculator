@@ -60,7 +60,17 @@ numberButtons.forEach(numberButton => numberButton.addEventListener("click", () 
 
 const decimalButton = document.querySelector("#decimal");
 let decimalClicked = false;
+let containsDecimal = false;
 decimalButton.addEventListener("click", () => {
+    for (let i = 0; i < display.textContent.length; i++) {
+        if (display.textContent[i] === ".") {
+            containsDecimal = true;
+            decimalClicked = true;
+            return;
+        }
+        containsDecimal = false;
+        decimalClicked = false;
+    }
     if (!decimalClicked && operation !== "" && secondNumber === "") {
         display.textContent = ".";
         secondNumber = ".";
@@ -73,7 +83,7 @@ decimalButton.addEventListener("click", () => {
         display.textContent += ".";
         secondNumber += ".";
         decimalClicked = true;
-    } 
+    }
 });
 
 const addition = document.querySelector("#add");
@@ -234,9 +244,13 @@ function operate() {
     if (operation === "+") {
         result = ((+firstNumber * 10) + (+secondNumber * 10)) / 10;
         addClicked = false;
+        result = result.toFixed(4);
+        result = +(result.toString().slice(0, 15));
     } else if (operation === "-") {
         result = ((+firstNumber * 10) - (+secondNumber * 10)) / 10;
         subtractClicked = false;
+        result = result.toFixed(4);
+        result = +(result.toString().slice(0, 15));
     } else if (operation === "*") {
         result = (((+firstNumber) * (+secondNumber)) * 10) / 10;
         multiplyClicked = false;
@@ -262,6 +276,7 @@ function operate() {
         display.textContent = "Number can't fit!";
         return;
     } 
+    
     display.textContent = result;
     firstNumber = result;
     operation = "";
