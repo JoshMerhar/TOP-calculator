@@ -26,7 +26,8 @@ deleteButton.addEventListener("click", () => {
         newDisplay = display.textContent.slice(0, -1);
         display.textContent = newDisplay;
         secondNumber = newDisplay;
-    } 
+    }
+    fullDisplay = false; 
 });
 
 const numberButtons = document.querySelectorAll(".number-button");
@@ -182,7 +183,7 @@ square.addEventListener("click", () => {
     signClicked = false;
     result = Math.sqrt(+firstNumber);
     if (result.toString().length >= 15) {
-        result = result.toFixed(4);
+        result = result.toFixed(13);
         result = +(result.toString().slice(0, 15));
     } 
     display.textContent = result;
@@ -244,18 +245,12 @@ function operate() {
     if (operation === "+") {
         result = ((+firstNumber * 10) + (+secondNumber * 10)) / 10;
         addClicked = false;
-        result = result.toFixed(4);
-        result = +(result.toString().slice(0, 15));
     } else if (operation === "-") {
         result = ((+firstNumber * 10) - (+secondNumber * 10)) / 10;
         subtractClicked = false;
-        result = result.toFixed(4);
-        result = +(result.toString().slice(0, 15));
     } else if (operation === "*") {
         result = (((+firstNumber) * (+secondNumber)) * 10) / 10;
         multiplyClicked = false;
-        result = result.toFixed(13);
-        result = +(result.toString().slice(0, 15));
     } else if (operation === "/") {
         if (secondNumber === "0") {
             clear;
@@ -263,8 +258,6 @@ function operate() {
         }
         result = (((+firstNumber) / (+secondNumber)) * 10) / 10;
         divideClicked = false;
-        result = result.toFixed(13);
-        result = +(result.toString().slice(0, 15));
     } else if (operation === "^") {
         result = (((+firstNumber) ** (+secondNumber)) * 10) / 10;
         exponentClicked = false;
@@ -272,10 +265,13 @@ function operate() {
         return;
     }
 
-    if (result.toString().length > 15) {
+    if (result.toString().length > 15 && result > 999999999999999) {
         display.textContent = "Number can't fit!";
         return;
-    } 
+    }
+
+    result = result.toFixed(13);
+    result = +(result.toString().slice(0, 15));
     
     display.textContent = result;
     firstNumber = result;
@@ -301,3 +297,4 @@ function clear() {
     divideClicked = false;
     exponentClicked = false;
 }
+
